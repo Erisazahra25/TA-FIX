@@ -40,6 +40,8 @@ Route::post('/add-to-cart', [HomeController::class, 'addToCart']);
 Route::post('/remove-from-cart/{id}', [HomeController::class, 'removeFromCart']);
 Route::post('/create-order', [HomeController::class, 'submitOrder']);
 Route::get('/my/shipping', [HomeController::class, 'shipping'])->name('my.shipping');
+Route::post('order/{order}/update-dpt', [HomeController::class, 'updateDpt']);
+
 
 //admin
 

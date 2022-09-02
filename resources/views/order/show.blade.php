@@ -42,7 +42,11 @@
                             <!-- /.col -->
                             <div class="col-sm-4 invoice-col">
                                 <b>Invoice #{{ $order->created_at }}</b><br>
+                                @if(($order['status'] === 'pending_payment'))
+                                <b>Payment Status : Waiting Verification</b><br>
+                                @else
                                 <b>Payment Status : {{ $order['status'] }}</b><br>
+                                @endif
                                 <b>Due Time Payment : {{$order['created_at']->addMonth(1)->format('d-F-Y')}}</b>
 
                                 @if(($order['status'] === 'pending_payment'))
@@ -103,7 +107,7 @@
                                         </tr>
                                         <tr>
                                             <th>Total:</th>
-                                            <td>{{ formatPrice($order['total_payment']) }}</td>
+                                            <td>{{ ($order['total_pay']) }}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -112,7 +116,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                @if($order['payment_proof'] !== null)
+                                @if(($order['payment_proof'] !== null))
                                     <hr>
                                     <h6>Payment (DP)</h6>
                                     <p>{{ formatPrice($order['dp']) }}</p>
@@ -120,6 +124,7 @@
                                     <img src="{{ $order['payment_proof'] }}" style="height: 300px; width: auto">
                                 @endif
                             </div>
+
                             <div class="col-6">
                                 <hr>
                                 <h6>Total Payment Must Be Pay</h6>
@@ -130,6 +135,17 @@
                                 @endif
                             </div>
                         </div>
+                            @if($order['value']===0)
+                            <p>Rewrite DP</p>
+                            <form action="/order/{{ $order['id'] }}/update-dpt" method="POST">
+                            @csrf
+                            <input type="hidden" class="form-control" name="value" value="0">
+                            <input type="text" class="form-control" name="updateDpt" value="{{($order['dp'])}}">
+                            <button type="submit" class="form-control btn btn-info btn-sm">update</button>
+                            @elseif($order['value']===1)
+                            <p>{{ formatPrice($order['dp']) }}</p>
+                            </form>
+                            @endif
                     <!-- /.row -->
                     </div>
                     <!-- /.invoice -->

@@ -166,6 +166,7 @@ class HomeController extends Controller
             'payment_proof' => "file|mimes:jpeg,png,jpg,gif,svg|max:1000",
             'payment_proof_final' => "file|mimes:jpeg,png,jpg,gif,svg|max:1000",
             'dp' => 'required|integer|min:0',
+            'value'=>'required|min:0'
         ]);
 
         $image_path = $order['payment_proof'];
@@ -185,6 +186,7 @@ class HomeController extends Controller
         $order['payment_proof_final'] = $image_path;
         $order['dp'] = $request['dp'];
         $order['totalDp'] = $request['totalDp'];
+        $order['value'] = $request['value'];
 
         $order->save();
 
@@ -195,6 +197,16 @@ class HomeController extends Controller
     {
         $shipping = ShippingPrice::all();
         return view('order.shipping', compact('shipping'));
+    }
+
+    public function updateDpt(Request $request, Order $order)
+    {
+
+        $order['dp'] = $request['updateDpt'];
+        $order['value'] = $request['value'];
+        $order->save();
+
+        return redirect()->back()->withMessage('Order DP updated');
     }
 
 }

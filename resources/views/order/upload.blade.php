@@ -25,23 +25,28 @@
                                 <div class="row">
                                 <div id="dp" class="col-6">
                                     <input type="hidden" name="totalDp" value="{{$order['total_payment']}}">
+                                    <input type="hidden" name="value" value="0">
+
                                     <label>Jumlah DP</label>
                                     @if($order['payment_proof'] === null)
+                                    <input type="hidden" class="form-control" name="value" value="1">
                                     <input type="number" class="form-control" name="dp" value="0">
                                     @elseif($order['payment_proof'] !== null)
-                                    <input type="number" value="{{$order['dp']}}" class="form-control" name="dp" readonly>
+                                    <input type="number" value="{{$order['dp']}}" class="form-control" name="dp">
                                     @endif
 
                                     @if($order['payment_proof'] !== null)
                                         <img src="{{ $order['payment_proof'] }}" style="height: 300px; width: auto">
                                         <br>
                                         @endif
+                                    @if(($order['payment_proof'] !== null)&&($order['value']!==1)OR($order['value'] ===null))
                                     <label>Proof Of Payment (DP)</label>
                                     <input type="file" id="payment_proof" name="payment_proof" class="form-control" id="fileToUpload">
-
+                                    @endif
                                 </div>
                                 <div id="cash" class="col-6">
                                     @if($order['payment_proof_final'] !== null)
+                                        <input type="hidden" class="form-control" name="value" value="1">
                                         <img src="{{ $order['payment_proof_final'] }}" style="height: 300px; width: auto">
                                         <br>
                                         @endif

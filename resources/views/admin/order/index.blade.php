@@ -35,7 +35,7 @@
                                     <td>{{ $order->shippingPrice['city'] }}<br>
                                         {{ $order['total_shipping_price'] }}
                                     </td>
-                                    <td>{{ $order['total_payment'] }}</td>
+                                    <td>{{ $order['total_pay'] }}</td>
                                     <td>{{ $order['status'] }}</td>
                                     <td>
                                         <a href="/order/{{ $order['id'] }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>

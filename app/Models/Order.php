@@ -18,6 +18,7 @@ class Order extends Model
         'payment_proof_final',
         'dp',
         'totalDp',
+        'value'
     ];
 
     const STATUS_OPTION = [
@@ -111,6 +112,12 @@ class Order extends Model
         }
 
         return $total;
+    }
+
+    public function getTotalPayAttribute()
+    {
+        return formatPrice(($this->totalShippingPrice() + $this->amount()));
+
     }
 
     public function getTotalPaymentAttribute()

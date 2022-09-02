@@ -39,6 +39,7 @@ class OrderController extends Controller
     {
 
         $order['dp'] = $request['updateDp'];
+        $order['value'] = $request['value'];
         $order->save();
 
         return redirect()->back()->withMessage('Order DP updated');

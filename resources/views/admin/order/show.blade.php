@@ -42,7 +42,11 @@
                             <!-- /.col -->
                             <div class="col-sm-4 invoice-col">
                                 <b>Invoice #{{ $order->created_at->timestamp }}/{{ $order['id'] }}</b><br>
+                                @if(($order['status'] === 'pending_payment'))
+                                <b>Payment Status : Waiting Verification</b><br>
+                                @else
                                 <b>Payment Status : {{ $order['status'] }}</b><br>
+                                @endif
                                 <b>DueTime Payment : {{$order['created_at']->addMonth(1)->format('d-F-Y')}}</b><br><br>
 
                                 <form action="/order/{{ $order['id'] }}/update-status" method="POST">
@@ -124,12 +128,22 @@
                                     <form action="/order/{{ $order['id'] }}/update-dp" method="POST">
                                     @csrf
                                     <h6>Payment (DP)</h6>
+                                    <p name="updateDp"> {{formatPrice($order['dp'])}}</p>
                                     <div class="row">
-                                    <div class="col-4">
-                                    <input type="text" class="form-control" name="updateDp" value="{{($order['dp'])}}">
-                                    </div>
                                     <div class="col-2">
-                                    <button type="submit" class="form-control btn btn-info btn-sm">update</button>
+                                        <input type="hidden" name="value" value="1">
+                                        <input type="hidden" class="form-control" name="updateDp" value="{{($order['dp'])}}">
+                                        <button type="submit" class="btn btn-info btn-sm">ok</button>
+
+                                    {{-- <input type="text" class="form-control" name="updateDp" value="{{($order['dp'])}}"> --}}
+                                    </div>
+                                </form>
+                                <form action="/order/{{ $order['id'] }}/update-dp" method="POST">
+                                    @csrf
+                                    <div class="col-2">
+                                        <input type="hidden" name="value" value="0">
+                                        <button type="submit" class="btn btn-danger btn-sm">reject</button>
+                                    {{-- <button type="submit" class="form-control btn btn-info btn-sm">update</button> --}}
                                     </div>
                                     </div>
                                     </form>
